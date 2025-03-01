@@ -87,7 +87,11 @@ export const translations = {
     // Related documents section
     relatedDocs: "Related Documents",
     viewDocument: "View",
-    downloadDocument: "Download"
+    downloadDocument: "Download",
+
+    // GitHub footer translations
+    viewOnGitHub: "View project on GitHub",
+    copyright: "© 2025"
   },
   lv: {
     // Page title and general UI
@@ -176,7 +180,11 @@ export const translations = {
     // Related documents section
     relatedDocs: "Saistītie Dokumenti",
     viewDocument: "Skatīt",
-    downloadDocument: "Lejupielādēt"
+    downloadDocument: "Lejupielādēt",
+
+    // GitHub footer translations
+    viewOnGitHub: "Skatīt projektu GitHub vietnē",
+    copyright: "© 2025"
   }
 };
 

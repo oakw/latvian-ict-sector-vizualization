@@ -132,6 +132,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         element.textContent = getTranslatedText(currentLanguage, 'viewDocument');
       }
     });
+
+    // Also update GitHub footer
+    const githubLink = document.querySelector('.github-link span');
+    if (githubLink) {
+      githubLink.textContent = getTranslatedText(currentLanguage, 'viewOnGitHub');
+    }
+    
+    const copyright = document.querySelector('.copyright');
+    if (copyright) {
+      copyright.textContent = getTranslatedText(currentLanguage, 'copyright');
+    }
   }
   
   // Function to update button tooltips with correct language

@@ -971,4 +971,54 @@ canvas[data-tooltip-title]::after {
   }
 }
 
+/* GitHub reference footer styling */
+.github-reference {
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid #e1e4e8;
+  text-align: center;
+}
+
+.github-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #24292e;
+  color: #ffffff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.github-link:hover {
+  background-color: #1b1f23;
+  text-decoration: none;
+}
+
+.github-link i {
+  font-size: 18px;
+}
+
+.copyright {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 5px 0 0;
+}
+
+/* Make sure the GitHub section is accessible */
+@media (forced-colors: active) {
+  .github-link {
+    border: 1px solid CanvasText;
+  }
+}
+
 /* Rest of your existing CSS */
