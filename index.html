@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Improved SEO meta tags -->
+  <title>Latvia's Information and Communication Technology Sector</title>
+  <meta name="description" content="Interactive data visualization of Latvia's ICT sector showing value added, GDP share, profits, employment, and enterprise growth from 2008 to 2023.">
+  <meta name="keywords" content="Latvia ICT sector, digital economy, technology industry, GDP contribution, ICT employment, data visualization, economic analysis">
+  <meta name="author" content="Martins P">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Latvia ICT Sector Analysis Dashboard">
+  <meta property="og:description" content="Interactive visualization of Latvia's ICT sector economic performance with data on value added, GDP share, profits and employment.">
+  <meta property="og:type" content="website">
+  
+  <!-- Stylesheets -->
+  <link href='/style.css' rel='stylesheet'>
+  <link href='/accessibility.css' rel='stylesheet'>
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Chart.js Treemap plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js"></script>
+  <!-- Font Awesome for people icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "Latvia ICT Sector Economic Analysis",
+      "description": "Comprehensive dataset on Latvia's Information and Communication Technology sector economic performance from 2008 to 2023",
+      "keywords": ["ICT sector", "Latvia economy", "digital economy", "technology industry", "ICT employment", "ICT enterprises"],
+      "creator": {
+        "@type": "Organization",
+        "name": "Latvia Central Statistical Bureau"
+      },
+      "temporalCoverage": "2008/2023",
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "Latvia"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Add language toggle at the top -->
+  <div class="language-toggle-container">
+    <button id="languageToggle" class="language-toggle-btn" aria-label="Toggle language">
+      <span class="language-label">LV</span>
+    </button>
+  </div>
+
+  <div class="container">
+    <!-- Updated title and added introduction section -->
+    <header class="page-header">
+      <h1 id="pageTitle">Information and Communication Technology (ICT) sector in Latvia</h1>
+      <div class="intro-text" id="introText">
+        <p>Latvia's strategy for its ICT sector centers on boosting its innovation and competitiveness, particularly within smart specialization areas. The sector is encouraged to evolve from primarily coding to developing high-value digital products and services for both domestic and international markets. Collaboration between businesses, universities, and research institutions is crucial, along with promoting technology transfer. Developing a robust ICT startup ecosystem is also prioritized, focusing on providing incubators, accelerators, and funding access. Finally, addressing regulatory barriers and promoting the adoption of advanced technologies like AI and Big Data are key to unlocking the sector's full potential.</p>
+      </div>
+    </header>
+    
+    <div class="chart-section">
+      <h2 id="valueAddedTitle">Value Added by Sector</h2>
+      <div class="chart-container">
+        <canvas id="treemapChart"></canvas>
+      </div>
+      <div class="data-source">
+        <span class="source-prefix">Source:</span> 
+        <a href="https://data.stat.gov.lv/pxweb/en/OSP_PUB/START__IKT__EP__EPM/EPE010/" target="_blank">
+          <span class="source-text">Central Statistics Bureau of Latvia</span>
+        </a>, 
+        <span class="source-year">2025</span>
+      </div>
+    </div>
+    
+    <div class="chart-section">
+      <h2 id="gdpShareTitle">ICT Sector Share of GDP</h2>
+      <div class="chart-container">
+        <canvas id="gdpShareChart"></canvas>
+      </div>
+      <div class="data-source">
+        <span class="source-prefix">Source:</span> 
+        <a href="https://data.stat.gov.lv/pxweb/en/OSP_PUB/START__IKT__EP__EPE/EPE040/" target="_blank">
+          <span class="source-text">Central Statistics Bureau of Latvia</span>
+        </a>, 
+        <span class="source-year">2025</span>
+      </div>
+    </div>
+    
+    <div class="chart-section">
+      <h2 id="profitsTitle">ICT Sector Profits</h2>
+      <div class="chart-container">
+        <canvas id="profitChart"></canvas>
+      </div>
+      <div class="data-source">
+        <span class="source-prefix">Source:</span> 
+        <a href="https://data.stat.gov.lv/pxweb/en/OSP_PUB/START__IKT__EP__EPM/EPE010/" target="_blank">
+          <span class="source-text">Central Statistics Bureau of Latvia</span>
+        </a>, 
+        <span class="source-year">2025</span>
+      </div>
+    </div>
+    
+    <div class="chart-section">
+      <h2 id="employmentTitle">ICT Employment Distribution</h2>
+      <div class="people-chart-container">
+        <div id="peopleChart" class="people-chart"></div>
+      </div>
+      <div class="people-chart-legend"></div>
+      <div class="data-source">
+        <span class="source-prefix">Source:</span> 
+        <a href="https://data.stat.gov.lv/pxweb/en/OSP_PUB/START__IKT__EP__EPM/EPE010/" target="_blank">
+          <span class="source-text">Central Statistics Bureau of Latvia</span>
+        </a>, 
+        <span class="source-year">2025</span>
+      </div>
+    </div>
+    
+    <div class="chart-section">
+      <h2 id="enterprisesTitle">ICT Enterprises Growth</h2>
+      <div class="chart-container">
+        <canvas id="enterprisesChart"></canvas>
+      </div>
+      <div class="data-source">
+        <span class="source-prefix">Source:</span> 
+        <a href="https://data.stat.gov.lv/pxweb/en/OSP_PUB/START__IKT__EP__EPM/EPE010/" target="_blank">
+          <span class="source-text">Central Statistics Bureau of Latvia</span>
+        </a>, 
+        <span class="source-year">2025</span>
+      </div>
+    </div>
+    
+    <!-- Add Related Documents section before closing container div -->
+    <div class="related-documents-section">
+      <h2 id="relatedDocsTitle">Related Documents</h2>
+      <div class="documents-grid">
+        <div class="document-card">
+          <div class="document-icon"><i class="fas fa-file-pdf"></i></div>
+          <div class="document-info">
+            <h3>Digitālās desmitgades stratēģiskais ceļvedis Latvijai līdz 2030.gadam</h3>
+            <p class="document-description">Latvia's strategic roadmap for the Digital Decade until 2030</p>
+            <a href="https://www.varam.gov.lv/lv/media/38076/download" target="_blank" class="document-link">
+              <i class="fas fa-download"></i> <span class="link-text">Download</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="document-card">
+          <div class="document-icon"><i class="fas fa-file-pdf"></i></div>
+          <div class="document-info">
+            <h3>Digitālās transformācijas pamatnostādnes 2021.-2027. gadam</h3>
+            <p class="document-description">Latvia's Digital Transformation Guidelines for 2021-2027</p>
+            <a href="https://digitalanedela.lv/wp-content/uploads/2021/09/Latvijas-Digit%c4%81l%c4%81s-Transform%c4%81cijas-pamatnost%c4%81dnes-2021-2027.pdf" target="_blank" class="document-link">
+              <i class="fas fa-download"></i> <span class="link-text">Download</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="document-card">
+          <div class="document-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="document-info">
+            <h3>Par Elektronisko sakaru nozares attīstības plānu 2021.–2027. gadam</h3>
+            <p class="document-description">Electronic Communications Sector Development Plan for 2021-2027</p>
+            <a href="https://likumi.lv/ta/id/327586-par-elektronisko-sakaru-nozares-attistibas-planu-2021-2027-gadam" target="_blank" class="document-link">
+              <i class="fas fa-external-link-alt"></i> <span class="link-text">View</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="document-card">
+          <div class="document-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="document-info">
+            <h3>Par Izglītības attīstības pamatnostādnēm 2021.-2027. gadam</h3>
+            <p class="document-description">Education Development Guidelines for 2021-2027</p>
+            <a href="https://likumi.lv/ta/id/324332-par-izglitibas-attistibas-pamatnostadnem-20212027-gadam" target="_blank" class="document-link">
+              <i class="fas fa-external-link-alt"></i> <span class="link-text">View</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="document-card">
+          <div class="document-icon"><i class="fas fa-file-pdf"></i></div>
+          <div class="document-info">
+            <h3>Digitalizācija Latvijā</h3>
+            <p class="document-description">Going Digital in Latvia, OECD Publishing, 2021</p>
+            <a href="https://www.oecd.org/content/dam/oecd/lv/publications/reports/2021/02/going-digital-in-latvia_0cf1d1d6/a58d1c1a-lv.pdf" target="_blank" class="document-link">
+              <i class="fas fa-download"></i> <span class="link-text">Download</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Update sticky year slider with play/pause buttons -->
+  <div id="yearSliderContainer" class="year-slider-container">
+    <div class="year-slider-content">
+      <div class="year-display">
+        <span id="currentYearDisplay">2023</span>
+      </div>
+      <div class="slider-wrapper">
+        <input type="range" id="yearSlider" min="2008" max="2023" value="2023" step="1" class="year-slider">
+      </div>
+      <div class="year-control-buttons">
+        <button id="playButton" class="year-control-btn" aria-label="Play animation">
+          <i class="fas fa-play"></i>
+        </button>
+        <button id="pauseButton" class="year-control-btn" aria-label="Pause animation" style="display:none">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button id="repeatButton" class="year-control-btn toggle-btn" aria-label="Toggle loop animation" title="Loop playback">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button id="speedButton" class="year-control-btn toggle-btn" title="Playback speed: 1x">
+          <span class="speed-label">1x</span>
+        </button>
+      </div>
+      <div class="year-labels">
+        <span class="year-min">2008</span>
+        <span class="year-max">2023</span>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

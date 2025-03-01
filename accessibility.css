@@ -1,0 +1,142 @@
+/* Accessibility and Consistent Styling */
+
+/* High contrast focus styles */
+:focus {
+  outline: 3px solid #36a2eb !important;
+  outline-offset: 2px !important;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Make interactive elements clearly identifiable */
+button,
+[role="button"],
+.fa-user[tabindex="0"] {
+  cursor: pointer;
+}
+
+/* Enhanced tooltips with better contrast */
+.people-tooltip,
+.chart-tooltip {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Make error messages more accessible */
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 12px;
+  font-weight: 500;
+}
+
+/* Chart container proper labeling */
+.chart-container {
+  position: relative;
+}
+
+.chart-container.loading::before {
+  color: #333;
+  font-weight: 500;
+}
+
+/* Improved legend styles */
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-right: 15px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.legend-label {
+  font-size: 0.9rem;
+}
+
+/* Make chart titles more consistent */
+.chart-title {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Add stronger color contrast to navigation controls */
+.year-control-btn {
+  color: white;
+  font-weight: bold;
+}
+
+/* Make related document links more accessible */
+.document-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: #0066cc;
+}
+
+.document-link:hover,
+.document-link:focus {
+  text-decoration: underline;
+  color: #004080;
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+
+  .chart-container,
+  .people-chart-container {
+    border: 1px solid CanvasText;
+  }
+
+  .legend-color {
+    border: 1px solid CanvasText;
+  }
+
+  .year-control-btn {
+    border: 1px solid CanvasText;
+  }
+}
+
+/* Skip to main content link - hidden until focused */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  z-index: 9999;
+  background: white;
+  color: #333;
+  padding: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.skip-to-content:focus {
+  left: 10px;
+  top: 10px;
+}

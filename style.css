@@ -1,0 +1,974 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  padding-bottom: 200px;
+  padding-top: 4rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #444;
+  font-weight: 300;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.controls label {
+  font-weight: 500;
+}
+
+.controls select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 1rem;
+}
+
+.chart-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  height: 600px;
+  position: relative;
+  min-height: 400px;
+  height: 50vh;
+  max-height: 500px;
+  margin-bottom: 20px;
+  margin-top: 10px; /* Add space between title and chart */
+  padding-top: 10px; /* Increase top padding to make room for title */
+  padding-top: 30px !important; /* Increase top padding to make room for wrapped titles */
+}
+
+.chart-container.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.chart-container.loading::before {
+  content: "Loading...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #666;
+  font-style: italic;
+  z-index: 1;
+}
+
+.chart-container.loading::after {
+  content: "Loading data...";
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.chart-container.no-data::before {
+  content: "No data available for selected year";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.chart-container .error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #d32f2f;
+  font-weight: bold;
+  text-align: center;
+  z-index: 2;
+}
+
+.chart-container:has(.error) canvas {
+  visibility: hidden;
+}
+
+.error {
+  color: #d9534f;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.data-source {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+canvas[data-tooltip-title]::after {
+  content: attr(data-tooltip-title);
+  position: absolute;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  z-index: 100;
+  white-space: nowrap;
+}
+
+.chart-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-left: 3px solid rgba(75, 192, 192, 0.8);
+  font-size: 0.9rem;
+}
+
+/* Add these styles to your existing CSS or update as needed */
+
+.chart-section {
+  margin-bottom: 3rem;
+}
+
+.chart-section h2 {
+  margin-bottom: 1rem;
+  color: #555;
+  font-weight: 600; /* Changed from 400 to 600 for bolder headings */
+  font-size: 1.5rem;
+  line-height: 1.3; /* Add line height for better readability */
+  overflow-wrap: break-word; /* Allow breaking long words */
+  word-wrap: break-word; /* Legacy support */
+  hyphens: auto; /* Enable hyphenation for very long words */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+/* Grid layout for larger screens */
+@media (min-width: 992px) {
+  .container {
+    max-width: 1400px;
+  }
+  
+  .chart-section {
+    margin-bottom: 2rem;
+  }
+  
+  .chart-container {
+    height: 450px; /* Adjust height for better proportions */
+  }
+}
+
+/* Make sure both charts are visible with appropriate spacing */
+#treemapChart, #profitChart {
+  width: 100%;
+  height: 100%;
+}
+
+/* Add these styles to your existing CSS */
+
+/* People Chart Styles */
+.people-chart-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  min-height: 250px;
+  position: relative;
+}
+
+.people-chart {
+  padding: 1rem 0;
+  max-width: 1000px;
+  place-self: center;
+}
+
+.people-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  min-height: 200px;
+  padding: 20px 0;
+}
+
+/* Style for person icons with responsive size - ADJUSTED SIZES */
+.people-icons i {
+  font-size: 32px; /* Slightly reduced from 36px to accommodate more icons */
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.people-icons i:hover {
+  transform: scale(1.3);
+  opacity: 0.8;
+  z-index: 10;
+}
+
+/* Legend styles */
+.people-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: flex-start; /* Change from center to flex-start to align left */
+  padding-left: 15px; /* Add left padding for better alignment */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-right: 12px;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+/* Tooltip styles */
+.people-tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.no-data-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+  font-style: italic;
+}
+/* Responsive scaling for different screen sizes - UPDATED FOR BALANCED ICON COUNT */
+@media (min-width: 1400px) {
+  .people-icons i {
+    font-size: 38px; /* Adjusted from 42px */
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .people-icons i {
+    font-size: 36px; /* Adjusted from 40px */
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .people-icons i {
+    font-size: 38px; /* Increased from 24px */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .people-icons i {
+    font-size: 36px; /* Increased from 22px */
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .people-icons i {
+    font-size: 32px; /* Increased from 20px */
+  }
+  
+  .people-icons {
+    gap: 8px; /* Increased gap for more spacing */
+  }
+}
+
+@media (max-width: 479px) {
+  .people-icons i {
+    font-size: 28px; /* Increased from 18px */
+  }
+  
+  .people-icons {
+    gap: 6px; /* Increased gap */
+  }
+  
+  .people-chart-container {
+    padding: 1rem;
+  }
+  
+  .legend-item {
+    font-size: 0.7rem;
+    margin-right: 6px;
+  }
+}
+
+/* Add these styles for the GDP share chart */
+#gdpShareChart-container {
+  height: 400px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Add these styles for the year slider */
+
+.year-slider-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  border-top: 1px solid #e0e0e0;
+}
+
+.year-slider-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.year-display {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.slider-wrapper {
+  width: 100%;
+  padding: 0 20px;
+}
+
+/* Fix slider styles to remove blue fade */
+.year-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  background: #e0e0e0;
+  outline: none;
+  border-radius: 4px;
+}
+
+.year-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #36a2eb;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease; /* Smooth transform only */
+}
+
+.year-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #36a2eb;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.year-slider:active::-webkit-slider-thumb {
+  transform: scale(1.2); /* Just scale instead of changing color */
+}
+
+.year-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Add styles for play/pause controls */
+.year-control-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+.year-control-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #36a2eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the toggle button visually distinct */
+.year-control-btn.toggle-btn {
+  background-color: #6c757d;
+}
+
+/* Style for active toggle button */
+.year-control-btn.toggle-btn.active {
+  background-color: #28a745;
+}
+
+.year-control-btn:hover {
+  transform: scale(1.05);
+}
+
+.year-control-btn:active {
+  transform: scale(0.95);
+}
+
+/* Remove animation for repeat button */
+#repeatButton:hover i {
+  animation: none;
+}
+
+/* Add a tooltip for the repeat button */
+.toggle-btn::before {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+.toggle-btn:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Highlight active state */
+.year-control-btn.active {
+  background-color: #e74c3c;
+}
+
+/* Highlight play/pause button when active */
+#playButton.playing {
+  background-color: #e74c3c;
+}
+
+/* People chart specific styles */
+.people-chart-container {
+  width: 100%;
+  position: relative;
+  min-height: 250px;
+  margin-bottom: 20px;
+}
+
+.people-chart {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.people-icons {
+  display: grid;
+  grid-template-columns: repeat(var(--icons-per-row, 14), 1fr);
+  gap: 2px;
+  width: 100%;
+  justify-content: center;
+}
+
+.people-icons .fa-user {
+  font-size: var(--icon-size, 12px);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.people-icons .fa-user:hover {
+  transform: scale(1.3);
+  opacity: 0.8;
+}
+
+.people-tooltip {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.people-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+.legend-label {
+  font-size: 0.85rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .people-icons {
+    --icons-per-row: 20; /* More columns on smaller screens */
+  }
+  
+  .legend-label {
+    font-size: 0.75rem;
+  }
+  
+  .chart-section h2 {
+    font-size: 1.3rem; /* Slightly smaller font on smaller devices */
+    padding: 0 5px; /* Add some horizontal padding */
+  }
+  
+  .chart-container {
+    padding-top: 15px; /* More space for potentially wrapped titles */
+    padding-top: 40px !important; /* Even more padding on mobile */
+  }
+  
+  .chart-js-title {
+    font-size: 14px !important; /* Smaller font on mobile */
+    line-height: 1.3 !important; /* Better line height for readability */
+  }
+  
+  .people-chart-legend {
+    padding-left: 10px; /* Less padding on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .people-icons {
+    --icons-per-row: 25; /* Even more columns on very small screens */
+  }
+  
+  .legend-item {
+    margin-right: 8px;
+  }
+  
+  .legend-color {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .legend-label {
+    font-size: 0.7rem;
+  }
+  
+  .chart-section h2 {
+    font-size: 1.1rem; /* Even smaller font on very small devices */
+    text-align: center; /* Center align on small screens for better appearance */
+  }
+  
+  /* Adjust chart container height for proper display on smaller screens */
+  .chart-container {
+    min-height: 300px; /* Reduce minimum height */
+    max-height: 400px; /* Reduce maximum height */
+  }
+  
+  .people-chart-legend {
+    padding-left: 5px; /* Even less padding on very small screens */
+  }
+}
+
+/* Add style for the speed button */
+#speedButton {
+  position: relative;
+  background-color: #4CAF50; /* Green default color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 44px;
+  padding: 0 10px;
+  border-radius: 20px; /* Make it slightly pill-shaped */
+}
+
+/* Speed label styles */
+.speed-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Speed button color variations based on speed */
+#speedButton.speed-0-5x {
+  background-color: #8BC34A; /* Light green for slow */
+}
+
+#speedButton.speed-1x {
+  background-color: #4CAF50; /* Default green for normal */
+}
+
+#speedButton.speed-2x {
+  background-color: #FF9800; /* Orange for fast */
+}
+
+#speedButton.speed-3x {
+  background-color: #F44336; /* Red for very fast */
+}
+
+/* Language toggle styles */
+.language-toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.language-toggle-btn {
+  background-color: #36a2eb;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.language-toggle-btn:hover {
+  background-color: #2e86c1;
+  transform: scale(1.05);
+}
+
+.language-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.language-toggle-btn.lv {
+  background-color: #9b59b6;
+}
+
+/* Page header and introduction styling */
+.page-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.intro-text {
+  margin: 0 auto 2rem;
+  text-align: justify;
+  line-height: 1.7;
+  color: #444;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 6px;
+  border-left: 4px solid #36a2eb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.7rem;
+  }
+  
+  .intro-text {
+    padding: 1.2rem;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+}
+
+/* Better handling of chart title overflow */
+.chart-js-title-container {
+  max-width: 100%;
+  white-space: normal !important; /* Force normal text wrapping */
+  overflow: visible !important; /* Make sure overflowing text is shown */
+}
+
+/* Better styling for chart titles - add these specific fixes */
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Override Chart.js internal title styling */
+.chart-js-title {
+  white-space: normal !important;
+  overflow: visible !important;
+  width: 100% !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+/* Add specific padding at the top of charts to make room for titles */
+.chart-container {
+  padding-top: 30px !important; /* Increase top padding to make room for wrapped titles */
+}
+
+/* Make sure title text can break properly */
+.chart-title {
+  overflow-wrap: break-word;
+  word-wrap: break-word; 
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+/* Responsive fixes for smaller screens */
+@media (max-width: 768px) {
+  .chart-container {
+    padding-top: 40px !important; /* Even more padding on mobile */
+  }
+  
+  .chart-js-title {
+    font-size: 14px !important; /* Smaller font on mobile */
+    line-height: 1.3 !important; /* Better line height for readability */
+  }
+}
+
+/* Add these specific fixes for the GDP share chart and profit chart */
+#gdpShareChart-container {
+  height: 400px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Chart-specific styles */
+.chart-subtitle {
+  white-space: normal !important;
+  overflow: visible !important;
+  width: 100% !important;
+  text-align: center !important;
+  z-index: 10;
+}
+
+/* Fix chart title position with proper z-index */
+.chart-title {
+  overflow-wrap: break-word;
+  word-wrap: break-word; 
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  z-index: 10;
+}
+
+/* Profit chart specific styles */
+#profitChart {
+  max-height: 450px; /* Give enough height for all categories */
+}
+
+/* Adjust container for better visibility on mobile */
+@media (max-width: 576px) {
+  #profitChart {
+    max-height: 500px; /* More height on mobile for profit chart */
+  }
+  
+  .chart-container {
+    min-height: 350px; /* Ensure enough height for charts on small screens */
+    padding-right: 10px; /* Less right padding to make more horizontal space */
+    overflow-x: hidden; /* Hide horizontal overflow */
+  }
+  
+  /* Make profit labels more visible on small screens */
+  .chart-container canvas:has(#profitChart) {
+    position: relative;
+    left: -5px; /* Shift chart slightly to make more room for labels */
+  }
+}
+
+/* Better positioning for small screens and chart titles */
+@media (max-width: 400px) {
+  .chart-container {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  
+  #profitChart {
+    max-height: 600px; /* Even more height on very small screens */
+  }
+}
+
+/* Related Documents Section Styles */
+.related-documents-section {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.related-documents-section h2 {
+  margin-bottom: 2rem;
+  color: #333;
+  font-weight: 400;
+  text-align: center;
+}
+
+.documents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.document-card {
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.document-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.document-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  background-color: #36a2eb;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.document-info {
+  flex: 1;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-info h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.document-description {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: auto;
+  padding-bottom: 1rem;
+}
+
+.document-link {
+  display: inline-flex;
+  align-items: center;
+  color: #36a2eb;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: auto;
+  transition: color 0.2s ease;
+}
+
+.document-link:hover {
+  color: #0275d8;
+  text-decoration: underline;
+}
+
+.document-link i {
+  margin-right: 6px;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .documents-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .document-card {
+    max-width: 100%;
+  }
+  
+  .document-info h3 {
+    font-size: 0.95rem;
+  }
+}
+
+/* Rest of your existing CSS */
