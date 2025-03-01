@@ -6,7 +6,7 @@ import { getCategoryColor } from './colorUtils.js';
 // Function to fetch enterprises data
 export async function fetchEnterprisesData() {
     try {
-        const response = await fetch('/dataset/enterprises_count.json');
+        const response = await fetch('dataset/enterprises_count.json');
         if (!response.ok) {
             console.warn(`Failed to fetch enterprises data: ${response.status} ${response.statusText}`);
             return null;

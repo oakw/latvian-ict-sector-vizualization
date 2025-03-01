@@ -5,7 +5,7 @@ import { getCategoryColor } from './colorUtils.js';
 // Function to fetch employment data
 export async function fetchEmploymentData() {
     try {
-        const response = await fetch('/dataset/employees.json');
+        const response = await fetch('dataset/employees.json');
         if (!response.ok) {
             console.warn(`Failed to fetch employment data: ${response.status} ${response.statusText}`);
             return null;

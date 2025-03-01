@@ -5,7 +5,7 @@ import { getCategoryColor } from './colorUtils.js';
 // Function to fetch profits data
 export async function fetchProfitsData() {
     try {
-        const response = await fetch('/dataset/profits.json');
+        const response = await fetch('dataset/profits.json');
         const data = await response.json();
         return data;
     } catch (error) {

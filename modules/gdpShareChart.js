@@ -5,7 +5,7 @@ import { getCategoryColor } from './colorUtils.js';
 // Function to fetch GDP share data
 export async function fetchGDPShareData() {
     try {
-        const response = await fetch('/dataset/gdp_share.json');
+        const response = await fetch('dataset/gdp_share.json');
         if (!response.ok) {
             console.warn(`Failed to fetch GDP share data: ${response.status} ${response.statusText}`);
             return null;

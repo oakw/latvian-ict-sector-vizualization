@@ -17,7 +17,11 @@ export function createTreemap(canvasElement, data, year, language = 'en') {
   const defaultColors = {
     'ICT Services': 'rgba(16, 150, 110, 0.85)',  // Teal blue for ICT services
     'ICT Manufacturing': 'rgba(24, 119, 242, 0.85)', // Blue for manufacturing
-    'ICT Wholesale': 'rgba(220, 57, 18, 0.85)'   // Red for wholesale
+    'ICT Wholesale': 'rgba(220, 57, 18, 0.85)',   // Red for wholesale
+    // Add Latvian translations as well
+    'IKT pakalpojumi kopā': 'rgba(16, 150, 110, 0.85)',  // Teal blue for ICT services
+    'IKT ražošana': 'rgba(24, 119, 242, 0.85)', // Blue for manufacturing
+    'IKT vairumtirdzniecība': 'rgba(220, 57, 18, 0.85)'   // Red for wholesale
   };
 
   // Get translated group names for color mapping
@@ -28,22 +32,28 @@ export function createTreemap(canvasElement, data, year, language = 'en') {
   // Background color function that uses the correct translated category names
   const getBackgroundColor = (ctx) => {
     if (!ctx.raw || !ctx.raw._data) return defaultColors['ICT Services'];
-
+    
     const data = ctx.raw._data;
     const groupName = data.group;
-
+    
     // Match translated group names for proper color assignment
-    if (groupName === servicesGroup) {
-      return defaultColors['ICT Services'];
+    // First check if the group name exists directly in the defaultColors
+    if (defaultColors[groupName]) {
+      return defaultColors[groupName];
     }
+    // As a fallback, check against known translations
+    else if (groupName === servicesGroup) {
+      return defaultColors['ICT Services'];
+    } 
     else if (groupName === manufacturingGroup) {
       return defaultColors['ICT Manufacturing'];
     }
     else if (groupName === wholesaleGroup) {
       return defaultColors['ICT Wholesale'];
     }
-
+    
     // Default color if none of the above
+    console.log('No color match for:', groupName);
     return defaultColors['ICT Services'];
   };
 

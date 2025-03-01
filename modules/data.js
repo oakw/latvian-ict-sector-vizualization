@@ -16,7 +16,7 @@ import { getTranslatedText } from './translations.js';
 // Function to fetch ICT data
 export async function fetchICTData() {
   try {
-    const response = await fetch('/dataset/value_added.json');
+    const response = await fetch('dataset/value_added.json');
     if (!response.ok) {
       console.warn(`Failed to fetch ICT data: ${response.status} ${response.statusText}`);
       return null;
